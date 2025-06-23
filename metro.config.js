@@ -9,4 +9,7 @@ config.transformer.babelTransformerPath = require.resolve(
   "./metro.transformer.js"
 );
 
+// Ensure CSS is processed correctly
+config.resolver.assetExts.push("css");
+
 module.exports = config;

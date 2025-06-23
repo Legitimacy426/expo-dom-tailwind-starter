@@ -1,7 +1,5 @@
 "use client"
-import { BarChart3, FileText, Home, Settings, Users, ChevronRight } from "lucide-react"
-
-
+import { BarChart3, ChevronRight } from "lucide-react"
 
 import {
   Sidebar,
@@ -16,38 +14,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { Link, usePathname } from "expo-router"
-
-const mainNavItems = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "Analytics",
-    url: "/dashboard/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Sub Menu",
-    url: "/dashboard/sub-menu",
-    icon: FileText,
-    hasSubmenu: true,
-  },
-  {
-    title: "Users",
-    url: "/dashboard/users",
-    icon: Users,
-  },
-  {
-    title: "Settings",
-    url: "/dashboard/settings",
-    icon: Settings,
-  },
-]
+import { useMainSidebar } from "@/contexts/sidebar-context"
 
 export function MainSidebar() {
   const pathname = usePathname()
+  const { items: mainNavItems } = useMainSidebar()
 
   return (
     <Sidebar collapsible="icon">
@@ -76,10 +47,15 @@ export function MainSidebar() {
               {mainNavItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
+                    <Link href={item.url as any}>
                       <item.icon />
                       <span>{item.title}</span>
                       {item.hasSubmenu && <ChevronRight className="ml-auto size-4" />}
+                      {item.badge && (
+                        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

@@ -1,7 +1,5 @@
 "use client"
-import { Calendar, Clock, FileText, Folder, Star } from "lucide-react"
 import { Link, usePathname } from "expo-router"
-
 
 import {
   Sidebar,
@@ -14,37 +12,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-
-const subMenuItems = [
-  {
-    title: "Overview",
-    url: "/dashboard/sub-menu",
-    icon: FileText,
-  },
-  {
-    title: "Projects",
-    url: "/dashboard/sub-menu/projects",
-    icon: Folder,
-  },
-  {
-    title: "Calendar",
-    url: "/dashboard/sub-menu/calendar",
-    icon: Calendar,
-  },
-  {
-    title: "Recent",
-    url: "/dashboard/sub-menu/recent",
-    icon: Clock,
-  },
-  {
-    title: "Favorites",
-    url: "/dashboard/sub-menu/favorites",
-    icon: Star,
-  },
-]
+import { useSubSidebar } from "@/contexts/sidebar-context"
 
 export function SubSidebar() {
   const pathname = usePathname()
+  const { items: subMenuItems } = useSubSidebar()
 
   return (
     <Sidebar side="left" variant="sidebar" collapsible="none" className="border-r border-sidebar-border">
@@ -62,9 +34,14 @@ export function SubSidebar() {
               {subMenuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url}>
+                    <Link href={item.url as any}>
                       <item.icon />
                       <span>{item.title}</span>
+                      {item.badge && (
+                        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

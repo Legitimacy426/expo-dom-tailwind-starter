@@ -1,10 +1,11 @@
 "use client"
 
 import React from "react"
+import "../../global.css"
 
 import { MainSidebar } from "@/components/main-sidebar"
 import { SubSidebar } from "@/components/sub-sidebar"
-import { SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider as UISidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar"
 import { Separator } from "@/components/ui/separator"
 import {
   Breadcrumb,
@@ -14,51 +15,17 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { usePathname } from "expo-router"
+import { SidebarProvider, useSidebar, useBreadcrumbs } from "@/contexts/sidebar-context"
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const pathname = usePathname()
-  const showSubSidebar = pathname.startsWith("/dashboard/sub-menu")
-
-  const getBreadcrumbs = () => {
-    const segments = pathname.split("/").filter(Boolean)
-    const breadcrumbs = []
-
-    if (segments.length > 1) {
-      breadcrumbs.push({ title: "Dashboard", href: "/dashboard" })
-
-      if (segments[1] === "sub-menu") {
-        breadcrumbs.push({ title: "Sub Menu", href: "/dashboard/sub-menu" })
-        if (segments[2]) {
-          breadcrumbs.push({
-            title: segments[2].charAt(0).toUpperCase() + segments[2].slice(1),
-            href: pathname,
-            isActive: true,
-          })
-        }
-      } else {
-        breadcrumbs.push({
-          title: segments[1].charAt(0).toUpperCase() + segments[1].slice(1),
-          href: pathname,
-          isActive: true,
-        })
-      }
-    }
-
-    return breadcrumbs
-  }
-
-  const breadcrumbs = getBreadcrumbs()
+function DashboardContent({ children }: { children: React.ReactNode }) {
+  const { shouldShowSubSidebar } = useSidebar()
+  const breadcrumbs = useBreadcrumbs()
 
   return (
-    <SidebarProvider>
+    <UISidebarProvider>
       <div className="flex min-h-screen w-full">
         <MainSidebar />
-        {showSubSidebar && (
+        {shouldShowSubSidebar && (
           <div className="w-64 border-r border-sidebar-border">
             <SubSidebar />
           </div>
@@ -87,6 +54,18 @@ export default function DashboardLayout({
           <main className="flex-1 p-6">{children}</main>
         </SidebarInset>
       </div>
+    </UISidebarProvider>
+  )
+}
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <SidebarProvider>
+      <DashboardContent>{children}</DashboardContent>
     </SidebarProvider>
   )
 }

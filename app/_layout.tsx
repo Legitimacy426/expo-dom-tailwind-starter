@@ -1,15 +1,18 @@
 import { Slot, Tabs } from "expo-router";
-import { House, ShoppingCart, Package, LineChart } from "lucide-react-native";
+import { House, ShoppingCart } from "lucide-react-native";
 import { BlurView } from "expo-blur";
 import { StyleSheet } from "react-native";
 import { HapticTab } from "@/components/haptic-tab";
 import * as SplashScreen from "expo-splash-screen";
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  // TODO: Add tab bar
+  // For web, use Slot to allow dashboard routing with sidebar
   if (process.env.EXPO_OS === "web") return <Slot />;
+
+  // For mobile, use tabs navigation
   return (
     <Tabs
       screenOptions={{
@@ -30,31 +33,25 @@ export default function RootLayout() {
       }}
     >
       <Tabs.Screen
-        name="(index)"
+        name="index"
         options={{
           title: "Dashboard",
           tabBarIcon: (props) => <House {...props} />,
         }}
       />
       <Tabs.Screen
-        name="(orders)"
+        name="dashboard"
         options={{
-          title: "Orders",
+          title: "Dashboard",
+          tabBarIcon: (props) => <House {...props} />,
+        }}
+      />
+      <Tabs.Screen
+        name="(auth)"
+        options={{
+          title: "Auth",
           tabBarIcon: (props) => <ShoppingCart {...props} />,
-        }}
-      />
-      <Tabs.Screen
-        name="(products)"
-        options={{
-          title: "Products",
-          tabBarIcon: (props) => <Package {...props} />,
-        }}
-      />
-      <Tabs.Screen
-        name="(analytics)"
-        options={{
-          title: "Analytics",
-          tabBarIcon: (props) => <LineChart {...props} />,
+          href: null, // Hide from tab bar
         }}
       />
     </Tabs>
