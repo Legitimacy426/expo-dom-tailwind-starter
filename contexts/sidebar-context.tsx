@@ -58,12 +58,17 @@ export interface SidebarConfig {
   activeRoutePattern?: string
 }
 
+export type SidebarMode = 'main' | 'client' | 'case'
+
 export interface SidebarState {
   isMainSidebarOpen: boolean
   isSubSidebarVisible: boolean
   activeMainItem: string | null
   activeSubItem: string | null
   currentContext: string | null
+  sidebarMode: SidebarMode
+  currentClientId: string | null
+  currentCaseId: string | null
 }
 
 export interface SidebarContextType {
@@ -83,6 +88,9 @@ export interface SidebarContextType {
   updateMainNavItems: (items: NavigationItem[]) => void
   updateSubNavItems: (items: NavigationItem[]) => void
   configureSidebars: (config: SidebarConfig) => void
+  setSidebarMode: (mode: SidebarMode) => void
+  setCurrentClient: (clientId: string | null) => void
+  setCurrentCase: (caseId: string | null) => void
 
   // Computed values
   shouldShowSubSidebar: boolean
@@ -142,80 +150,97 @@ const defaultMainNavItems: NavigationItem[] = [
   },
 ]
 
-// Route-specific sidebar configurations
+// Route-specific sidebar configurations for three-sidebar system
 const routeConfigs: RouteConfig[] = [
-  // Client Management Context
+  // Main Dashboard Context (Dark Blue) - No sub-sidebar
   {
-    pattern: /^\/dashboard\/clients/,
+    pattern: /^\/dashboard\/?$/,
+    showSubSidebar: false,
+    contextTitle: "Case Manager Dashboard",
+    contextDescription: "Main dashboard overview",
+  },
+
+  // Client/Mother Context (Light Blue) - Basic client management
+  {
+    pattern: /^\/dashboard\/client\/[^\/]+\/?$/,
     showSubSidebar: true,
     contextTitle: "Client Management",
-    contextDescription: "Manage client information and care",
+    contextDescription: "Manage client information",
     subSidebarGroups: [
       {
         title: "CARE HUB",
         items: [
-          { title: "Clients Profile", url: "/dashboard/clients/profile", icon: Users },
-          { title: "Pregnancy Cases", url: "/dashboard/clients/pregnancy-cases", icon: Heart },
-          { title: "Children", url: "/dashboard/clients/children", icon: Baby },
+          { title: "Clients Profile", url: "/dashboard/client/:id/profile", icon: Users },
+          { title: "Pregnancy Cases", url: "/dashboard/client/:id/pregnancy-cases", icon: Heart },
+          { title: "Children", url: "/dashboard/client/:id/children", icon: Baby },
         ]
       },
       {
         title: "DOCUMENTATION",
         items: [
-          { title: "Client Documents", url: "/dashboard/clients/documents", icon: FileText },
-          { title: "Form Library", url: "/dashboard/clients/forms", icon: BookOpen },
+          { title: "Client Documents", url: "/dashboard/client/:id/documents", icon: FileText },
+          { title: "Form Library", url: "/dashboard/client/:id/forms", icon: BookOpen },
         ]
       }
     ]
   },
-  // Care Planning Context
+
+  // Case Context (Light Blue with more content) - Full case management
   {
-    pattern: /^\/dashboard\/care/,
+    pattern: /^\/dashboard\/client\/[^\/]+\/case\/[^\/]+/,
     showSubSidebar: true,
-    contextTitle: "Care Planning",
-    contextDescription: "Plan and track care activities",
+    contextTitle: "Case Management",
+    contextDescription: "Active case management and care planning",
     subSidebarGroups: [
       {
         title: "CARE HUB",
         items: [
-          { title: "Clients Profile", url: "/dashboard/care/clients-profile", icon: Users },
-          { title: "Pregnancy Cases", url: "/dashboard/care/pregnancy-cases", icon: Heart },
-          { title: "Children", url: "/dashboard/care/children", icon: Baby },
+          { title: "Clients Profile", url: "/dashboard/client/:clientId/case/:caseId/profile", icon: Users },
+          { title: "Pregnancy Cases", url: "/dashboard/client/:clientId/case/:caseId/pregnancy-cases", icon: Heart },
+          { title: "Children", url: "/dashboard/client/:clientId/case/:caseId/children", icon: Baby },
         ]
       },
       {
         title: "CARE SUPPORT & PLANNING",
         items: [
-          { title: "Support Needs", url: "/dashboard/care/support-needs", icon: Heart },
-          { title: "Care Plan Goals", url: "/dashboard/care/goals", icon: Target },
-          { title: "Visit History", url: "/dashboard/care/visit-history", icon: History },
-          { title: "Pregnancy Data", url: "/dashboard/care/pregnancy-data", icon: TrendingUp },
-          { title: "Postpartum Data", url: "/dashboard/care/postpartum-data", icon: FileHeart },
-          { title: "Notes", url: "/dashboard/care/notes", icon: StickyNote },
-          { title: "Referrals", url: "/dashboard/care/referrals", icon: UserCheck },
+          { title: "Support Needs", url: "/dashboard/client/:clientId/case/:caseId/support-needs", icon: Heart },
+          { title: "Care Plan Goals", url: "/dashboard/client/:clientId/case/:caseId/goals", icon: Target },
+          { title: "Visit History", url: "/dashboard/client/:clientId/case/:caseId/visit-history", icon: History },
+          { title: "Pregnancy Data", url: "/dashboard/client/:clientId/case/:caseId/pregnancy-data", icon: TrendingUp },
+          { title: "Postpartum Data", url: "/dashboard/client/:clientId/case/:caseId/postpartum-data", icon: FileHeart },
+          { title: "Notes", url: "/dashboard/client/:clientId/case/:caseId/notes", icon: StickyNote },
+          { title: "Referrals", url: "/dashboard/client/:clientId/case/:caseId/referrals", icon: UserCheck },
         ]
       },
       {
         title: "OTHER",
         items: [
-          { title: "Client Documents", url: "/dashboard/care/documents", icon: FileText },
+          { title: "Client Documents", url: "/dashboard/client/:clientId/case/:caseId/documents", icon: FileText },
         ]
       }
     ]
   },
-  // Documentation Context
+
+  // Fallback for other client routes (use client context)
   {
-    pattern: /^\/dashboard\/documents/,
+    pattern: /^\/dashboard\/client\/[^\/]+/,
     showSubSidebar: true,
-    contextTitle: "Documentation",
-    contextDescription: "Manage documents and forms",
+    contextTitle: "Client Management",
+    contextDescription: "Manage client information",
     subSidebarGroups: [
+      {
+        title: "CARE HUB",
+        items: [
+          { title: "Clients Profile", url: "/dashboard/client/:id/profile", icon: Users },
+          { title: "Pregnancy Cases", url: "/dashboard/client/:id/pregnancy-cases", icon: Heart },
+          { title: "Children", url: "/dashboard/client/:id/children", icon: Baby },
+        ]
+      },
       {
         title: "DOCUMENTATION",
         items: [
-          { title: "Client Documents", url: "/dashboard/documents/client", icon: FileText },
-          { title: "Form Library", url: "/dashboard/documents/forms", icon: BookOpen },
-          { title: "Templates", url: "/dashboard/documents/templates", icon: ClipboardList },
+          { title: "Client Documents", url: "/dashboard/client/:id/documents", icon: FileText },
+          { title: "Form Library", url: "/dashboard/client/:id/forms", icon: BookOpen },
         ]
       }
     ]
@@ -264,6 +289,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     activeMainItem: null,
     activeSubItem: null,
     currentContext: null,
+    sidebarMode: 'main',
+    currentClientId: null,
+    currentCaseId: null,
   })
 
   // Navigation items state
@@ -282,10 +310,34 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     }) || null
   }
 
+  // Helper function to determine sidebar mode from pathname
+  const determineSidebarMode = (pathname: string): SidebarMode => {
+    if (pathname.match(/^\/dashboard\/client\/[^\/]+\/case\/[^\/]+/)) {
+      return 'case'
+    } else if (pathname.match(/^\/dashboard\/client\/[^\/]+/)) {
+      return 'client'
+    } else {
+      return 'main'
+    }
+  }
+
+  // Helper function to extract IDs from pathname
+  const extractIdsFromPath = (pathname: string) => {
+    const clientMatch = pathname.match(/^\/dashboard\/client\/([^\/]+)/)
+    const caseMatch = pathname.match(/^\/dashboard\/client\/[^\/]+\/case\/([^\/]+)/)
+
+    return {
+      clientId: clientMatch ? clientMatch[1] : null,
+      caseId: caseMatch ? caseMatch[1] : null,
+    }
+  }
+
   // Update active items and sub-sidebar visibility based on pathname
   useEffect(() => {
     const routeConfig = findRouteConfig(pathname)
     const shouldShowSub = routeConfig?.showSubSidebar || pathname.startsWith("/dashboard/sub-menu")
+    const sidebarMode = determineSidebarMode(pathname)
+    const { clientId, caseId } = extractIdsFromPath(pathname)
 
     // Find active main item
     const activeMain = mainNavItems.find(item =>
@@ -296,7 +348,15 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     let activeSub = null
     if (routeConfig?.subSidebarGroups) {
       for (const group of routeConfig.subSidebarGroups) {
-        activeSub = group.items.find(item => pathname === item.url)
+        // Replace :id, :clientId, :caseId placeholders with actual values
+        const processedItems = group.items.map(item => ({
+          ...item,
+          url: item.url
+            .replace(':id', clientId || '')
+            .replace(':clientId', clientId || '')
+            .replace(':caseId', caseId || '')
+        }))
+        activeSub = processedItems.find(item => pathname === item.url)
         if (activeSub) break
       }
     } else {
@@ -305,7 +365,19 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 
     // Update sub-sidebar groups based on route config
     if (routeConfig?.subSidebarGroups) {
-      setCurrentSubSidebarGroups(routeConfig.subSidebarGroups)
+      // Process groups to replace placeholders with actual IDs
+      const processedGroups = routeConfigs.find(config => config.pattern.test && config.pattern.test(pathname))?.subSidebarGroups?.map(group => ({
+        ...group,
+        items: group.items.map(item => ({
+          ...item,
+          url: item.url
+            .replace(':id', clientId || '')
+            .replace(':clientId', clientId || '')
+            .replace(':caseId', caseId || '')
+        }))
+      })) || routeConfig.subSidebarGroups
+
+      setCurrentSubSidebarGroups(processedGroups)
     } else {
       setCurrentSubSidebarGroups([])
     }
@@ -316,6 +388,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       activeMainItem: activeMain?.url || null,
       activeSubItem: activeSub?.url || null,
       currentContext: routeConfig?.contextTitle || null,
+      sidebarMode,
+      currentClientId: clientId,
+      currentCaseId: caseId,
     }))
   }, [pathname, mainNavItems, subNavItems])
 
@@ -334,6 +409,18 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
 
   const setActiveSubItem = (item: string | null) => {
     setState(prev => ({ ...prev, activeSubItem: item }))
+  }
+
+  const setSidebarMode = (mode: SidebarMode) => {
+    setState(prev => ({ ...prev, sidebarMode: mode }))
+  }
+
+  const setCurrentClient = (clientId: string | null) => {
+    setState(prev => ({ ...prev, currentClientId: clientId }))
+  }
+
+  const setCurrentCase = (caseId: string | null) => {
+    setState(prev => ({ ...prev, currentCaseId: caseId }))
   }
 
   const updateMainNavItems = (items: NavigationItem[]) => {
@@ -409,6 +496,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     updateMainNavItems,
     updateSubNavItems,
     configureSidebars,
+    setSidebarMode,
+    setCurrentClient,
+    setCurrentCase,
     shouldShowSubSidebar,
     getCurrentBreadcrumbs,
     getCurrentContext,

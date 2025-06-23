@@ -157,7 +157,7 @@ export function MainSidebar({ config }: MainSidebarProps) {
               variant="outline"
               asChild
             >
-              <Link href="/dashboard">
+              <Link href="/dashboard/client/demo-client">
                 <Plus className="size-4" />
                 <span>Add New Mother</span>
               </Link>
