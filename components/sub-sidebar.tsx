@@ -12,23 +12,51 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useSubSidebar } from "@/contexts/sidebar-context"
+import { useSubSidebar, NavigationItem } from "@/contexts/sidebar-context"
 
-export function SubSidebar() {
+export interface SubSidebarConfig {
+  title: string
+  description?: string
+  groupLabel?: string
+  navigationItems?: NavigationItem[]
+  className?: string
+}
+
+interface SubSidebarProps {
+  config?: SubSidebarConfig
+}
+
+export function SubSidebar({ config }: SubSidebarProps) {
   const pathname = usePathname()
-  const { items: subMenuItems } = useSubSidebar()
+  const { items: contextSubMenuItems } = useSubSidebar()
+
+  // Use provided config or fall back to context items
+  const subMenuItems = config?.navigationItems || contextSubMenuItems
+  const sidebarConfig = {
+    title: config?.title || "Sub Menu",
+    description: config?.description || "Manage your content",
+    groupLabel: config?.groupLabel || "Quick Access",
+    className: config?.className || "",
+  }
 
   return (
-    <Sidebar side="left" variant="sidebar" collapsible="none" className="border-r border-sidebar-border">
+    <Sidebar
+      side="left"
+      variant="sidebar"
+      collapsible="none"
+      className={`border-r border-sidebar-border ${sidebarConfig.className}`}
+    >
       <SidebarHeader>
         <div className="px-2 py-1">
-          <h2 className="text-lg font-semibold">Sub Menu</h2>
-          <p className="text-sm text-muted-foreground">Manage your content</p>
+          <h2 className="text-lg font-semibold">{sidebarConfig.title}</h2>
+          {sidebarConfig.description && (
+            <p className="text-sm text-muted-foreground">{sidebarConfig.description}</p>
+          )}
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
+          <SidebarGroupLabel>{sidebarConfig.groupLabel}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {subMenuItems.map((item) => (

@@ -14,6 +14,12 @@ export interface NavigationItem {
   description?: string
 }
 
+export interface SidebarConfig {
+  mainNavItems?: NavigationItem[]
+  subNavItems?: NavigationItem[]
+  activeRoutePattern?: string
+}
+
 export interface SidebarState {
   isMainSidebarOpen: boolean
   isSubSidebarVisible: boolean
@@ -36,6 +42,7 @@ export interface SidebarContextType {
   setActiveSubItem: (item: string | null) => void
   updateMainNavItems: (items: NavigationItem[]) => void
   updateSubNavItems: (items: NavigationItem[]) => void
+  configureSidebars: (config: SidebarConfig) => void
 
   // Computed values
   shouldShowSubSidebar: boolean
@@ -170,6 +177,15 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     setSubNavItems(items)
   }
 
+  const configureSidebars = (config: SidebarConfig) => {
+    if (config.mainNavItems) {
+      setMainNavItems(config.mainNavItems)
+    }
+    if (config.subNavItems) {
+      setSubNavItems(config.subNavItems)
+    }
+  }
+
   // Computed values
   const shouldShowSubSidebar = state.isSubSidebarVisible
 
@@ -213,6 +229,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     setActiveSubItem,
     updateMainNavItems,
     updateSubNavItems,
+    configureSidebars,
     shouldShowSubSidebar,
     getCurrentBreadcrumbs,
   }
