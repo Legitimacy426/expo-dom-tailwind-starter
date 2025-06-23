@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import "../../global.css"
 
 import { MainSidebar } from "@/components/main-sidebar"
 import { SubSidebar } from "@/components/sub-sidebar"
