@@ -2,7 +2,32 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react"
 import { usePathname } from "expo-router"
-import { LucideIcon, Home, BarChart3, FileText, Users, Settings, Folder, Calendar, Clock, Star } from "lucide-react"
+import {
+  LucideIcon,
+  Home,
+  BarChart3,
+  FileText,
+  Users,
+  Settings,
+  Folder,
+  Calendar,
+  Clock,
+  Star,
+  MessageSquare,
+  CalendarDays,
+  Baby,
+  Target,
+  UserCheck,
+  Heart,
+  ClipboardList,
+  BookOpen,
+  TrendingUp,
+  FileHeart,
+  Stethoscope,
+  History,
+  StickyNote,
+  UserPlus
+} from "lucide-react"
 
 // Types
 export interface NavigationItem {
@@ -12,6 +37,19 @@ export interface NavigationItem {
   hasSubmenu?: boolean
   badge?: string | number
   description?: string
+}
+
+export interface SubSidebarGroup {
+  title: string
+  items: NavigationItem[]
+}
+
+export interface RouteConfig {
+  pattern: string | RegExp
+  showSubSidebar: boolean
+  subSidebarGroups?: SubSidebarGroup[]
+  contextTitle?: string
+  contextDescription?: string
 }
 
 export interface SidebarConfig {
@@ -25,6 +63,7 @@ export interface SidebarState {
   isSubSidebarVisible: boolean
   activeMainItem: string | null
   activeSubItem: string | null
+  currentContext: string | null
 }
 
 export interface SidebarContextType {
@@ -34,6 +73,7 @@ export interface SidebarContextType {
   // Navigation items
   mainNavItems: NavigationItem[]
   subNavItems: NavigationItem[]
+  currentSubSidebarGroups: SubSidebarGroup[]
 
   // Actions
   setMainSidebarOpen: (open: boolean) => void
@@ -47,6 +87,7 @@ export interface SidebarContextType {
   // Computed values
   shouldShowSubSidebar: boolean
   getCurrentBreadcrumbs: () => BreadcrumbItem[]
+  getCurrentContext: () => { title: string; description?: string } | null
 }
 
 export interface BreadcrumbItem {
@@ -55,34 +96,130 @@ export interface BreadcrumbItem {
   isActive?: boolean
 }
 
-// Default navigation items
+// Default navigation items for HerPlan Case Manager
 const defaultMainNavItems: NavigationItem[] = [
   {
-    title: "Dashboard",
+    title: "Home",
     url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Analytics",
-    url: "/dashboard/analytics",
-    icon: BarChart3,
+    title: "Messages",
+    url: "/dashboard/messages",
+    icon: MessageSquare,
+    badge: "5",
   },
   {
-    title: "Sub Menu",
-    url: "/dashboard/sub-menu",
-    icon: FileText,
+    title: "Appointments",
+    url: "/dashboard/appointments",
+    icon: CalendarDays,
+  },
+  {
+    title: "Clients",
+    url: "/dashboard/clients",
+    icon: Users,
     hasSubmenu: true,
   },
   {
-    title: "Users",
-    url: "/dashboard/users",
-    icon: Users,
+    title: "Children",
+    url: "/dashboard/children",
+    icon: Baby,
   },
   {
-    title: "Settings",
-    url: "/dashboard/settings",
-    icon: Settings,
+    title: "Reporting",
+    url: "/dashboard/reporting",
+    icon: BarChart3,
   },
+  {
+    title: "Goals",
+    url: "/dashboard/goals",
+    icon: Target,
+  },
+  {
+    title: "Referrals",
+    url: "/dashboard/referrals",
+    icon: UserCheck,
+  },
+]
+
+// Route-specific sidebar configurations
+const routeConfigs: RouteConfig[] = [
+  // Client Management Context
+  {
+    pattern: /^\/dashboard\/clients/,
+    showSubSidebar: true,
+    contextTitle: "Client Management",
+    contextDescription: "Manage client information and care",
+    subSidebarGroups: [
+      {
+        title: "CARE HUB",
+        items: [
+          { title: "Clients Profile", url: "/dashboard/clients/profile", icon: Users },
+          { title: "Pregnancy Cases", url: "/dashboard/clients/pregnancy-cases", icon: Heart },
+          { title: "Children", url: "/dashboard/clients/children", icon: Baby },
+        ]
+      },
+      {
+        title: "DOCUMENTATION",
+        items: [
+          { title: "Client Documents", url: "/dashboard/clients/documents", icon: FileText },
+          { title: "Form Library", url: "/dashboard/clients/forms", icon: BookOpen },
+        ]
+      }
+    ]
+  },
+  // Care Planning Context
+  {
+    pattern: /^\/dashboard\/care/,
+    showSubSidebar: true,
+    contextTitle: "Care Planning",
+    contextDescription: "Plan and track care activities",
+    subSidebarGroups: [
+      {
+        title: "CARE HUB",
+        items: [
+          { title: "Clients Profile", url: "/dashboard/care/clients-profile", icon: Users },
+          { title: "Pregnancy Cases", url: "/dashboard/care/pregnancy-cases", icon: Heart },
+          { title: "Children", url: "/dashboard/care/children", icon: Baby },
+        ]
+      },
+      {
+        title: "CARE SUPPORT & PLANNING",
+        items: [
+          { title: "Support Needs", url: "/dashboard/care/support-needs", icon: Heart },
+          { title: "Care Plan Goals", url: "/dashboard/care/goals", icon: Target },
+          { title: "Visit History", url: "/dashboard/care/visit-history", icon: History },
+          { title: "Pregnancy Data", url: "/dashboard/care/pregnancy-data", icon: TrendingUp },
+          { title: "Postpartum Data", url: "/dashboard/care/postpartum-data", icon: FileHeart },
+          { title: "Notes", url: "/dashboard/care/notes", icon: StickyNote },
+          { title: "Referrals", url: "/dashboard/care/referrals", icon: UserCheck },
+        ]
+      },
+      {
+        title: "OTHER",
+        items: [
+          { title: "Client Documents", url: "/dashboard/care/documents", icon: FileText },
+        ]
+      }
+    ]
+  },
+  // Documentation Context
+  {
+    pattern: /^\/dashboard\/documents/,
+    showSubSidebar: true,
+    contextTitle: "Documentation",
+    contextDescription: "Manage documents and forms",
+    subSidebarGroups: [
+      {
+        title: "DOCUMENTATION",
+        items: [
+          { title: "Client Documents", url: "/dashboard/documents/client", icon: FileText },
+          { title: "Form Library", url: "/dashboard/documents/forms", icon: BookOpen },
+          { title: "Templates", url: "/dashboard/documents/templates", icon: ClipboardList },
+        ]
+      }
+    ]
+  }
 ]
 
 const defaultSubNavItems: NavigationItem[] = [
@@ -126,29 +263,59 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     isSubSidebarVisible: false,
     activeMainItem: null,
     activeSubItem: null,
+    currentContext: null,
   })
 
   // Navigation items state
   const [mainNavItems, setMainNavItems] = useState<NavigationItem[]>(defaultMainNavItems)
   const [subNavItems, setSubNavItems] = useState<NavigationItem[]>(defaultSubNavItems)
+  const [currentSubSidebarGroups, setCurrentSubSidebarGroups] = useState<SubSidebarGroup[]>([])
+
+  // Helper function to find matching route config
+  const findRouteConfig = (pathname: string): RouteConfig | null => {
+    return routeConfigs.find(config => {
+      if (typeof config.pattern === 'string') {
+        return pathname.startsWith(config.pattern)
+      } else {
+        return config.pattern.test(pathname)
+      }
+    }) || null
+  }
 
   // Update active items and sub-sidebar visibility based on pathname
   useEffect(() => {
-    const shouldShowSub = pathname.startsWith("/dashboard/sub-menu")
+    const routeConfig = findRouteConfig(pathname)
+    const shouldShowSub = routeConfig?.showSubSidebar || pathname.startsWith("/dashboard/sub-menu")
 
     // Find active main item
     const activeMain = mainNavItems.find(item =>
       pathname === item.url || (item.hasSubmenu && pathname.startsWith(item.url))
     )
 
-    // Find active sub item
-    const activeSub = subNavItems.find(item => pathname === item.url)
+    // Find active sub item (from current sub-sidebar groups or default sub nav)
+    let activeSub = null
+    if (routeConfig?.subSidebarGroups) {
+      for (const group of routeConfig.subSidebarGroups) {
+        activeSub = group.items.find(item => pathname === item.url)
+        if (activeSub) break
+      }
+    } else {
+      activeSub = subNavItems.find(item => pathname === item.url)
+    }
+
+    // Update sub-sidebar groups based on route config
+    if (routeConfig?.subSidebarGroups) {
+      setCurrentSubSidebarGroups(routeConfig.subSidebarGroups)
+    } else {
+      setCurrentSubSidebarGroups([])
+    }
 
     setState(prev => ({
       ...prev,
       isSubSidebarVisible: shouldShowSub,
       activeMainItem: activeMain?.url || null,
       activeSubItem: activeSub?.url || null,
+      currentContext: routeConfig?.contextTitle || null,
     }))
   }, [pathname, mainNavItems, subNavItems])
 
@@ -219,10 +386,22 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     return breadcrumbs
   }
 
+  const getCurrentContext = (): { title: string; description?: string } | null => {
+    const routeConfig = findRouteConfig(pathname)
+    if (routeConfig) {
+      return {
+        title: routeConfig.contextTitle || "Context",
+        description: routeConfig.contextDescription,
+      }
+    }
+    return null
+  }
+
   const contextValue: SidebarContextType = {
     state,
     mainNavItems,
     subNavItems,
+    currentSubSidebarGroups,
     setMainSidebarOpen,
     setSubSidebarVisible,
     setActiveMainItem,
@@ -232,6 +411,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     configureSidebars,
     shouldShowSubSidebar,
     getCurrentBreadcrumbs,
+    getCurrentContext,
   }
 
   return (
@@ -263,11 +443,22 @@ export function useMainSidebar() {
 }
 
 export function useSubSidebar() {
-  const { state, subNavItems, setSubSidebarVisible, setActiveSubItem, shouldShowSubSidebar } = useSidebar()
+  const {
+    state,
+    subNavItems,
+    currentSubSidebarGroups,
+    setSubSidebarVisible,
+    setActiveSubItem,
+    shouldShowSubSidebar,
+    getCurrentContext
+  } = useSidebar()
+
   return {
     isVisible: shouldShowSubSidebar,
     activeItem: state.activeSubItem,
     items: subNavItems,
+    groups: currentSubSidebarGroups,
+    context: getCurrentContext(),
     setVisible: setSubSidebarVisible,
     setActiveItem: setActiveSubItem,
   }

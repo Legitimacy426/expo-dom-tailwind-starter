@@ -1,9 +1,10 @@
 "use client"
-import { BarChart3, ChevronRight, LucideIcon } from "lucide-react"
+import { BarChart3, ChevronRight, LucideIcon, Plus } from "lucide-react"
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -13,6 +14,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { Button } from "@/components/ui/button"
 import { Link, usePathname } from "expo-router"
 import { useMainSidebar, NavigationItem } from "@/contexts/sidebar-context"
 
@@ -36,12 +38,17 @@ export function MainSidebar({ config }: MainSidebarProps) {
   // Use provided config or fall back to context items
   const navItems = config?.navigationItems || contextNavItems
   const sidebarConfig = {
-    title: config?.title || "Dashboard",
-    version: config?.version || "v1.0.0",
+    title: config?.title || "HerPlan",
+    version: config?.version || "Case Manager",
     homeUrl: config?.homeUrl || "/dashboard",
     icon: config?.icon || BarChart3,
     groupLabel: config?.groupLabel || "Navigation",
   }
+
+  // Group navigation items by section
+  const navigationSection = navItems.slice(0, 3) // Home, Messages, Appointments
+  const clientsSection = navItems.slice(3, 5) // Clients, Children
+  const insightsSection = navItems.slice(5) // Reporting, Goals, Referrals
 
   return (
     <Sidebar collapsible="icon">
@@ -49,7 +56,7 @@ export function MainSidebar({ config }: MainSidebarProps) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <Link href={sidebarConfig.homeUrl}>
+              <Link href="/dashboard">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <sidebarConfig.icon className="size-4" />
                 </div>
@@ -65,11 +72,62 @@ export function MainSidebar({ config }: MainSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
+        {/* Navigation Section */}
         <SidebarGroup>
-          <SidebarGroupLabel>{sidebarConfig.groupLabel}</SidebarGroupLabel>
+          <SidebarGroupLabel>NAVIGATION</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
+              {navigationSection.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                    <Link href={item.url as any}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                      {item.hasSubmenu && <ChevronRight className="ml-auto size-4" />}
+                      {item.badge && (
+                        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Clients Section */}
+        <SidebarGroup>
+          <SidebarGroupLabel>CLIENTS</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {clientsSection.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                    <Link href={item.url as any}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                      {item.hasSubmenu && <ChevronRight className="ml-auto size-4" />}
+                      {item.badge && (
+                        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                          {item.badge}
+                        </span>
+                      )}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Insights & Actions Section */}
+        <SidebarGroup>
+          <SidebarGroupLabel>INSIGHTS & ACTIONS</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {insightsSection.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild isActive={pathname === item.url}>
                     <Link href={item.url as any}>
@@ -89,6 +147,24 @@ export function MainSidebar({ config }: MainSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      {/* Footer with Add New Mother button */}
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <Button
+              className="w-full justify-start gap-2 bg-white text-sidebar-foreground hover:bg-sidebar-accent"
+              variant="outline"
+              asChild
+            >
+              <Link href="/dashboard">
+                <Plus className="size-4" />
+                <span>Add New Mother</span>
+              </Link>
+            </Button>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )

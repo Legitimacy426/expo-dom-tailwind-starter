@@ -28,16 +28,20 @@ interface SubSidebarProps {
 
 export function SubSidebar({ config }: SubSidebarProps) {
   const pathname = usePathname()
-  const { items: contextSubMenuItems } = useSubSidebar()
+  const { items: contextSubMenuItems, groups: contextGroups, context } = useSubSidebar()
 
   // Use provided config or fall back to context items
   const subMenuItems = config?.navigationItems || contextSubMenuItems
+  const subSidebarGroups = contextGroups
   const sidebarConfig = {
-    title: config?.title || "Sub Menu",
-    description: config?.description || "Manage your content",
+    title: config?.title || context?.title || "Sub Menu",
+    description: config?.description || context?.description || "Manage your content",
     groupLabel: config?.groupLabel || "Quick Access",
     className: config?.className || "",
   }
+
+  // If we have groups from context, use those; otherwise fall back to simple items
+  const hasGroups = subSidebarGroups && subSidebarGroups.length > 0
 
   return (
     <Sidebar
@@ -55,28 +59,57 @@ export function SubSidebar({ config }: SubSidebarProps) {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>{sidebarConfig.groupLabel}</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {subMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
-                    <Link href={item.url as any}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                      {item.badge && (
-                        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
-                          {item.badge}
-                        </span>
-                      )}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {hasGroups ? (
+          // Render grouped navigation
+          subSidebarGroups.map((group) => (
+            <SidebarGroup key={group.title}>
+              <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {group.items.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild isActive={pathname === item.url}>
+                        <Link href={item.url as any}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                          {item.badge && (
+                            <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                              {item.badge}
+                            </span>
+                          )}
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))
+        ) : (
+          // Render simple navigation (fallback)
+          <SidebarGroup>
+            <SidebarGroupLabel>{sidebarConfig.groupLabel}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {subMenuItems.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={pathname === item.url}>
+                      <Link href={item.url as any}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                        {item.badge && (
+                          <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                            {item.badge}
+                          </span>
+                        )}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   )

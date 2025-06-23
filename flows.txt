@@ -1,0 +1,95 @@
+
+
+Onboarding new client flow
+
+Start → Case Manager Dashboard (dark blue)
+
+→ Case manager selects “Add New Mother” from sidebar
+→ Opens Enrollment Form
+→ Case manager completes Enrollment Form
+
+→ System creates new client record
+→ Client appears in Case Manager’s client list
+
+→ Case manager selects client from list
+→ Switches to Client Dashboard (light blue sidebar)
+→ Opens “Mother’s Profile” page
+
+→ Case manager clicks “Add New Case”
+→ System displays prompt: “Welcome to First Visit”
+→ Opens Needs Assessment Form
+→ Case manager completes Needs Assessment
+
+→ System logs completed form to Support Needs page
+→ Each parent category selected generates an individual log entry
+→ These entries are revisited or updated during future visits
+
+→ System prompts next step: “Select Appropriate Form”
+  → If client is pregnant → Opens Pregnancy Form
+  → If client is postpartum → Opens Postpartum Form
+→ Case manager completes applicable form
+
+→ System prompts: “Set Up Goals?”
+  → If Yes → Opens Goals Form
+      → Case manager defines and logs client goals
+  → If Skip → Proceed to visit tracking
+
+→ System prompts: “Begin Visit Tracking”
+→ Case manager logs contact in Visitor Log
+
+→ Visitor Log → End onboarding process
+
+
+
+
+
+
+updating existing support need flow
+
+
+→ Care Hub Dashboard (light blue UI view)
+→ Case manager selects “Support Needs” from the sidebar
+→ Opens Support Needs page (list view of existing needs)
+
+→ Case manager selects an existing need from the list
+→ Clicks “Edit/View” button
+→ Opens detailed view of selected Need 
+→ Two options available:
+Option A: “Add Additional Needs”  → Dropdown menu appears  → Select additional need(s) from menu
+Option B: “Update Existing Need”  → Choose to:
+Add a new comment
+Update stage of process via radio button (e.g., Needed, Referral Made, In Progress, Need Met) 
+→ Clicks “Update” button
+→ System logs update as a new entry with timestamp
+→ Case manager returns to Support Needs list page
+
+
+
+ Create New Support Need Flow
+
+→ Care Hub Dashboard (light blue UI view)
+→ Case manager selects “Support Needs” from the sidebar
+→ Opens Support Needs page (list view of existing needs)
+→ Case manager clicks “Create New Need” button 
+→ Prompt appears with two required dropdowns:
+Menu 1: Select Support Category (required)
+Menu 2: Select one or more specific Support Needs
+→ Click “Done” to proceed or “Cancel” to return to Support Needs page
+
+→ If “Done” is selected:  → New page loads displaying the selected support needs
+→ For each selected need:
+Update stage using radio buttons (e.g., Needed, Referral Made, In Progress, Need Met)
+Add optional comment per need
+
+→ Click “Update”
+→ System logs each new Support Need entry with timestamp
+→ Case manager is redirected back to the Support Needs list page
+
+
+
+
+
+
+
+
+
