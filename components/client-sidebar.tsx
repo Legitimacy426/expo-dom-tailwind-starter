@@ -13,6 +13,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useSubSidebar, NavigationItem, SubSidebarGroup } from "@/contexts/sidebar-context"
+import { GitGraph } from "lucide-react-native"
+import { GitGraphIcon } from "lucide-react"
 
 export interface ClientSidebarConfig {
   title: string
@@ -45,12 +47,21 @@ export function ClientSidebar({ config }: ClientSidebarProps) {
       className={`border-r border-sidebar-border sidebar-sub ${sidebarConfig.className}`}
     >
       <SidebarHeader>
-        <div className="px-2 py-1">
-          <h2 className="text-lg font-semibold">{sidebarConfig.title}</h2>
-          {sidebarConfig.description && (
-            <p className="text-sm text-muted-foreground">{sidebarConfig.description}</p>
-          )}
-        </div>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/dashboard">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <GitGraphIcon className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-semibold">HerPlan</span>
+                  <span className="text-xs">Case Manager</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         {sidebarGroups && sidebarGroups.length > 0 ? (
