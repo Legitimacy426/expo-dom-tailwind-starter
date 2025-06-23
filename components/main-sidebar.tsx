@@ -150,11 +150,11 @@ export function MainSidebar({ config }: MainSidebarProps) {
         {/* Add New Mother button */}
         <div className="px-3 py-2">
           <Button
-            className="w-full justify-start gap-2 bg-white text-black hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-white"
+            className="w-full justify-start gap-2 bg-white text-blue-900 border-white hover:bg-white hover:text-blue-900"
             variant="outline"
             asChild
           >
-            <Link href="/dashboard/client/demo-client">
+            <Link href="/dashboard/client/demo-client" className="text-blue-900">
               <Plus className="size-4" />
               <span>Add New Mother</span>
             </Link>

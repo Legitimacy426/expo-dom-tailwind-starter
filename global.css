@@ -233,3 +233,22 @@
 .sidebar-case a {
   color: white !important;
 }
+
+/* Exception for the Add New Mother button */
+.sidebar-main .bg-white,
+.sidebar-main .bg-white *,
+.sidebar-main .bg-white a,
+.sidebar-main .bg-white span,
+.sidebar-main .bg-white svg {
+  color: #1e3a8a !important; /* blue-900 */
+  background-color: white !important;
+}
+
+.sidebar-main .bg-white:hover,
+.sidebar-main .bg-white:hover *,
+.sidebar-main .bg-white:hover a,
+.sidebar-main .bg-white:hover span,
+.sidebar-main .bg-white:hover svg {
+  color: #1e3a8a !important; /* Keep blue text on hover */
+  background-color: white !important; /* Keep white background on hover */
+}
