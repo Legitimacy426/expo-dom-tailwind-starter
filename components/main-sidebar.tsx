@@ -53,7 +53,7 @@ export function MainSidebar({ config }: MainSidebarProps) {
   return (
     <Sidebar
       collapsible="icon"
-      className="sidebar-main"
+      className="sidebar-main border-r-0"
     >
       <SidebarHeader>
         <SidebarMenu>

@@ -108,6 +108,18 @@
   --sidebar-ring: 210 73% 40% !important;
 }
 
+/* Remove right border from main sidebar */
+.sidebar-main.border-r-0,
+.sidebar-main.border-r-0 > div,
+.sidebar-main.border-r-0 [data-sidebar="sidebar"] {
+  border-right: none !important;
+}
+
+/* Remove hover border effect from main sidebar rail */
+.sidebar-main [data-sidebar="rail"]:hover:after {
+  background-color: transparent !important;
+}
+
 .sidebar-main [data-sidebar="menu-button"] {
   color: hsl(var(--sidebar-foreground)) !important;
 }
