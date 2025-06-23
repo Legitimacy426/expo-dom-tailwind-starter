@@ -146,24 +146,24 @@ export function MainSidebar({ config }: MainSidebarProps) {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Add New Mother button */}
+        <div className="px-3 py-2">
+          <Button
+            className="w-full justify-start gap-2 bg-white text-black hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-white"
+            variant="outline"
+            asChild
+          >
+            <Link href="/dashboard/client/demo-client">
+              <Plus className="size-4" />
+              <span>Add New Mother</span>
+            </Link>
+          </Button>
+        </div>
       </SidebarContent>
 
-      {/* Footer with Add New Mother button */}
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <Button
-              className="w-full justify-start gap-2 bg-white text-black hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              variant="outline"
-              asChild
-            >
-              <Link href="/dashboard/client/demo-client">
-                <Plus className="size-4" />
-                <span>Add New Mother</span>
-              </Link>
-            </Button>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        {/* Footer can be used for other content if needed */}
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
