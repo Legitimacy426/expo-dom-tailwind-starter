@@ -1,90 +1,60 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart3, Users, DollarSign, TrendingUp } from "lucide-react"
-
 export default function DashboardPage() {
+  console.log("🎯 Dashboard page is rendering") // Debug log
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to your dashboard. Here's an overview of your data.</p>
+    <div style={{ padding: '20px', backgroundColor: '#f9f9f9', minHeight: '400px' }}>
+      {/* Simple test content with inline styles */}
+      <div style={{ marginBottom: '20px' }}>
+        <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>
+          🏠 Dashboard
+        </h1>
+        <p style={{ color: '#666', fontSize: '16px' }}>
+          Welcome to your dashboard. Here's an overview of your data.
+        </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <p className="text-xs text-muted-foreground">+20.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+2350</div>
-            <p className="text-xs text-muted-foreground">+180.1% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sales</CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <p className="text-xs text-muted-foreground">+19% from last month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Now</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <p className="text-xs text-muted-foreground">+201 since last hour</p>
-          </CardContent>
-        </Card>
+      {/* Blue test box */}
+      <div style={{
+        padding: '16px',
+        backgroundColor: '#dbeafe',
+        border: '2px solid #3b82f6',
+        borderRadius: '8px',
+        marginBottom: '20px'
+      }}>
+        <p style={{ color: '#1e40af', fontWeight: 'bold' }}>
+          🎯 SUCCESS: Dashboard content is rendering correctly!
+        </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
-          <CardHeader>
-            <CardTitle>Overview</CardTitle>
-          </CardHeader>
-          <CardContent className="pl-2">
-            <div className="h-[300px] flex items-center justify-center bg-muted/50 rounded-lg">
-              <p className="text-muted-foreground">Chart placeholder</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="col-span-3">
-          <CardHeader>
-            <CardTitle>Recent Sales</CardTitle>
-            <CardDescription>You made 265 sales this month.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-8">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="flex items-center">
-                  <div className="w-9 h-9 bg-muted rounded-full flex items-center justify-center">
-                    <span className="text-sm font-medium">{i}</span>
-                  </div>
-                  <div className="ml-4 space-y-1">
-                    <p className="text-sm font-medium leading-none">Customer {i}</p>
-                    <p className="text-sm text-muted-foreground">customer{i}@example.com</p>
-                  </div>
-                  <div className="ml-auto font-medium">+$1,999.00</div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Additional test content */}
+      <div style={{
+        padding: '16px',
+        backgroundColor: '#dcfce7',
+        border: '2px solid #16a34a',
+        borderRadius: '8px',
+        marginBottom: '20px'
+      }}>
+        <h2 style={{ color: '#15803d', margin: '0 0 8px 0' }}>✅ Layout Status</h2>
+        <p style={{ color: '#15803d', margin: 0 }}>
+          Both the layout and dashboard page are working properly!
+        </p>
+      </div>
+
+      {/* Simple HTML content to test */}
+      <div style={{
+        padding: '16px',
+        backgroundColor: '#fef3c7',
+        border: '2px solid #f59e0b',
+        borderRadius: '8px',
+        marginBottom: '20px'
+      }}>
+        <h2 style={{ color: '#d97706', margin: '0 0 8px 0' }}>📊 Dashboard Features</h2>
+        <ul style={{ color: '#d97706', margin: 0, paddingLeft: '20px' }}>
+          <li>Revenue tracking</li>
+          <li>User analytics</li>
+          <li>Sales reports</li>
+          <li>Real-time data</li>
+        </ul>
       </div>
     </div>
   )
