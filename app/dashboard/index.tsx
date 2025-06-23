@@ -1,6 +1,5 @@
 export default function DashboardPage() {
-  console.log("🎯 Dashboard page is rendering") // Debug log
-  console.log("🎯 Dashboard page component loaded at:", new Date().toISOString())
+
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#f9f9f9', minHeight: '400px' }}>

@@ -21,8 +21,6 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   const { shouldShowSubSidebar } = useSidebar()
   const breadcrumbs = useBreadcrumbs()
 
-  console.log("🔍 DashboardContent rendering", { shouldShowSubSidebar, breadcrumbs }) // Debug log
-
   return (
     <UISidebarProvider>
       <div className="flex min-h-screen w-full">
@@ -54,20 +52,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             </Breadcrumb>
           </header>
           <main className="flex-1 p-6">
-            {/* Debug: Test if main content area is visible */}
-            <div className="mb-4 p-2 bg-green-100 border border-green-300 rounded">
-              <p className="text-green-800">✅ Layout: Main content area is rendering</p>
-              <p className="text-green-600 text-sm">Children type: {typeof children}</p>
-              <p className="text-green-600 text-sm">Children exists: {children ? 'Yes' : 'No'}</p>
-            </div>
-            <div className="border-2 border-blue-300 bg-blue-50 p-4 rounded">
-              <p className="text-blue-800 font-semibold mb-2">🔍 Children Content (using Slot):</p>
               <Slot />
-            </div>
-            <div className="border-2 border-purple-300 bg-purple-50 p-4 rounded mt-4">
-              <p className="text-purple-800 font-semibold mb-2">🔍 Original Children Prop:</p>
-              {children}
-            </div>
           </main>
         </SidebarInset>
       </div>
