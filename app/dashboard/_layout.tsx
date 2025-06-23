@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { Slot } from "expo-router"
 
 import { MainSidebar } from "@/components/main-sidebar"
 import { SubSidebar } from "@/components/sub-sidebar"
@@ -56,8 +57,17 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             {/* Debug: Test if main content area is visible */}
             <div className="mb-4 p-2 bg-green-100 border border-green-300 rounded">
               <p className="text-green-800">✅ Layout: Main content area is rendering</p>
+              <p className="text-green-600 text-sm">Children type: {typeof children}</p>
+              <p className="text-green-600 text-sm">Children exists: {children ? 'Yes' : 'No'}</p>
             </div>
-            {children}
+            <div className="border-2 border-blue-300 bg-blue-50 p-4 rounded">
+              <p className="text-blue-800 font-semibold mb-2">🔍 Children Content (using Slot):</p>
+              <Slot />
+            </div>
+            <div className="border-2 border-purple-300 bg-purple-50 p-4 rounded mt-4">
+              <p className="text-purple-800 font-semibold mb-2">🔍 Original Children Prop:</p>
+              {children}
+            </div>
           </main>
         </SidebarInset>
       </div>

@@ -9,8 +9,13 @@ import "../global.css";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  console.log("🌐 Root Layout rendering for web, EXPO_OS:", process.env.EXPO_OS)
+
   // For web, use Slot to allow dashboard routing with sidebar
-  if (process.env.EXPO_OS === "web") return <Slot />;
+  if (process.env.EXPO_OS === "web") {
+    console.log("🌐 Using Slot for web routing")
+    return <Slot />;
+  }
 
   // For mobile, use tabs navigation
   return (

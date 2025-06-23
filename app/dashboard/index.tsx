@@ -1,8 +1,22 @@
 export default function DashboardPage() {
   console.log("🎯 Dashboard page is rendering") // Debug log
+  console.log("🎯 Dashboard page component loaded at:", new Date().toISOString())
 
   return (
     <div style={{ padding: '20px', backgroundColor: '#f9f9f9', minHeight: '400px' }}>
+      {/* URGENT DEBUG: This should be visible if the component is rendering */}
+      <div style={{
+        padding: '20px',
+        backgroundColor: '#ff0000',
+        color: 'white',
+        fontSize: '24px',
+        fontWeight: 'bold',
+        marginBottom: '20px',
+        border: '5px solid #000'
+      }}>
+        🚨 DASHBOARD INDEX PAGE IS RENDERING! 🚨
+      </div>
+
       {/* Simple test content with inline styles */}
       <div style={{ marginBottom: '20px' }}>
         <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '8px', color: '#333' }}>
