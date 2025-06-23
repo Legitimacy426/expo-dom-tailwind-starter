@@ -51,7 +51,10 @@ export function MainSidebar({ config }: MainSidebarProps) {
   const insightsSection = navItems.slice(5) // Reporting, Goals, Referrals
 
   return (
-    <Sidebar collapsible="icon" className="sidebar-main">
+    <Sidebar
+      collapsible="icon"
+      className="sidebar-main"
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -147,14 +150,14 @@ export function MainSidebar({ config }: MainSidebarProps) {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Add New Mother button */}
-        <div className="px-3 py-2">
+        {/* Add New Mother button - hidden when sidebar is collapsed */}
+        <div className="px-3 py-2 group-data-[collapsible=icon]:hidden">
           <Button
             className="w-full justify-start gap-2 bg-white text-blue-900 border-white hover:bg-white hover:text-blue-900"
             variant="outline"
             asChild
           >
-            <Link href="/dashboard/client/demo-client" className="text-blue-900">
+            <Link href="/dashboard/clients/index" className="text-blue-900">
               <Plus className="size-4" />
               <span>Add New Mother</span>
             </Link>

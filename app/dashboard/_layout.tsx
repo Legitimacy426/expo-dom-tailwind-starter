@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/breadcrumb"
 import { SidebarProvider, useSidebar, useBreadcrumbs } from "@/contexts/sidebar-context"
 
-function DashboardContent({ children }: { children: React.ReactNode }) {
-  const { shouldShowSubSidebar, state } = useSidebar()
+function DashboardContent() {
+  const { shouldShowSubSidebar, state, setMainSidebarOpen } = useSidebar()
   const breadcrumbs = useBreadcrumbs()
 
   // Determine which sidebar to show based on mode
@@ -50,7 +50,11 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <UISidebarProvider>
+    <UISidebarProvider
+      defaultOpen={state.isMainSidebarOpen}
+      open={state.isMainSidebarOpen}
+      onOpenChange={setMainSidebarOpen}
+    >
       <div className="flex min-h-screen w-full">
         <MainSidebar />
         {renderSubSidebar()}
@@ -84,14 +88,10 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function DashboardLayout() {
   return (
     <SidebarProvider>
-      <DashboardContent>{children}</DashboardContent>
+      <DashboardContent />
     </SidebarProvider>
   )
 }

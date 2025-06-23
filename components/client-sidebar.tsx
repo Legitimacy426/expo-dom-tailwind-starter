@@ -12,8 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { useSubSidebar, NavigationItem, SubSidebarGroup } from "@/contexts/sidebar-context"
-import { GitGraph } from "lucide-react-native"
+import { useSubSidebar, SubSidebarGroup } from "@/contexts/sidebar-context"
 import { GitGraphIcon } from "lucide-react"
 
 export interface ClientSidebarConfig {

@@ -385,6 +385,8 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({
       ...prev,
       isSubSidebarVisible: shouldShowSub,
+      // Automatically minimize main sidebar when sub sidebar is visible
+      isMainSidebarOpen: !shouldShowSub,
       activeMainItem: activeMain?.url || null,
       activeSubItem: activeSub?.url || null,
       currentContext: routeConfig?.contextTitle || null,
