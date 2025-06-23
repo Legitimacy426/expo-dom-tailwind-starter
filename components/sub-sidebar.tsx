@@ -48,7 +48,7 @@ export function SubSidebar({ config }: SubSidebarProps) {
       side="left"
       variant="sidebar"
       collapsible="none"
-      className={`border-r border-sidebar-border ${sidebarConfig.className}`}
+      className={`border-r border-sidebar-border sidebar-sub ${sidebarConfig.className}`}
     >
       <SidebarHeader>
         <div className="px-2 py-1">

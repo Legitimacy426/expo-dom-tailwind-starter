@@ -42,38 +42,37 @@ export function ClientSidebar({ config }: ClientSidebarProps) {
       side="left"
       variant="sidebar"
       collapsible="none"
-      className={`border-r border-sidebar-border bg-blue-50 ${sidebarConfig.className}`}
+      className={`border-r border-sidebar-border sidebar-sub ${sidebarConfig.className}`}
     >
-      <SidebarHeader className="bg-blue-100 border-b border-blue-200">
+      <SidebarHeader>
         <div className="px-2 py-1">
-          <h2 className="text-lg font-semibold text-blue-900">{sidebarConfig.title}</h2>
+          <h2 className="text-lg font-semibold">{sidebarConfig.title}</h2>
           {sidebarConfig.description && (
-            <p className="text-sm text-blue-700">{sidebarConfig.description}</p>
+            <p className="text-sm text-muted-foreground">{sidebarConfig.description}</p>
           )}
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-blue-50">
+      <SidebarContent>
         {sidebarGroups && sidebarGroups.length > 0 ? (
           // Render grouped navigation
           sidebarGroups.map((group) => (
             <SidebarGroup key={group.title}>
-              <SidebarGroupLabel className="text-blue-800 font-semibold text-xs uppercase tracking-wider">
+              <SidebarGroupLabel>
                 {group.title}
               </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {group.items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton 
-                        asChild 
+                      <SidebarMenuButton
+                        asChild
                         isActive={pathname === item.url}
-                        className="text-blue-900 hover:bg-blue-100 data-[state=open]:bg-blue-100"
                       >
                         <Link href={item.url as any}>
-                          <item.icon className="text-blue-600" />
+                          <item.icon />
                           <span>{item.title}</span>
                           {item.badge && (
-                            <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-blue-600 text-xs text-white">
+                            <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
                               {item.badge}
                             </span>
                           )}
@@ -88,11 +87,11 @@ export function ClientSidebar({ config }: ClientSidebarProps) {
         ) : (
           // Fallback content
           <SidebarGroup>
-            <SidebarGroupLabel className="text-blue-800 font-semibold text-xs uppercase tracking-wider">
+            <SidebarGroupLabel>
               CLIENT NAVIGATION
             </SidebarGroupLabel>
             <SidebarGroupContent>
-              <div className="p-4 text-blue-700 text-sm">
+              <div className="p-4 text-muted-foreground text-sm">
                 No navigation items available
               </div>
             </SidebarGroupContent>

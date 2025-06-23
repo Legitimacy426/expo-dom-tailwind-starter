@@ -51,7 +51,7 @@ export function MainSidebar({ config }: MainSidebarProps) {
   const insightsSection = navItems.slice(5) // Reporting, Goals, Referrals
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar collapsible="icon" className="sidebar-main">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -153,7 +153,7 @@ export function MainSidebar({ config }: MainSidebarProps) {
         <SidebarMenu>
           <SidebarMenuItem>
             <Button
-              className="w-full justify-start gap-2 bg-white text-sidebar-foreground hover:bg-sidebar-accent"
+              className="w-full justify-start gap-2 bg-white text-black hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               variant="outline"
               asChild
             >

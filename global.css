@@ -35,14 +35,14 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 73% 27%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 210 73% 35%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 73% 32%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 73% 22%;
+    --sidebar-ring: 210 73% 40%;
   }
 
   .dark {
@@ -76,14 +76,14 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 210 73% 27%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 210 73% 35%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 210 73% 32%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 73% 22%;
+    --sidebar-ring: 210 73% 40%;
   }
 }
 
@@ -94,4 +94,142 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom sidebar color variants */
+.sidebar-main {
+  --sidebar-background: 210 73% 27% !important; /* #124376 */
+  --sidebar-foreground: 0 0% 100% !important;
+  --sidebar-primary: 210 73% 35% !important;
+  --sidebar-primary-foreground: 0 0% 100% !important;
+  --sidebar-accent: 210 73% 32% !important;
+  --sidebar-accent-foreground: 0 0% 100% !important;
+  --sidebar-border: 210 73% 22% !important;
+  --sidebar-ring: 210 73% 40% !important;
+}
+
+.sidebar-main [data-sidebar="menu-button"] {
+  color: hsl(var(--sidebar-foreground)) !important;
+}
+
+.sidebar-main [data-sidebar="menu-button"]:hover {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+}
+
+.sidebar-main [data-sidebar="menu-button"][data-active="true"] {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+  font-weight: 500 !important;
+}
+
+.sidebar-sub {
+  --sidebar-background: 210 73% 42% !important; /* #1F69B7 */
+  --sidebar-foreground: 0 0% 100% !important;
+  --sidebar-primary: 210 73% 50% !important;
+  --sidebar-primary-foreground: 0 0% 100% !important;
+  --sidebar-accent: 210 73% 47% !important;
+  --sidebar-accent-foreground: 0 0% 100% !important;
+  --sidebar-border: 210 73% 37% !important;
+  --sidebar-ring: 210 73% 55% !important;
+}
+
+.sidebar-sub [data-sidebar="menu-button"] {
+  color: hsl(var(--sidebar-foreground)) !important;
+}
+
+.sidebar-sub [data-sidebar="menu-button"]:hover {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+}
+
+.sidebar-sub [data-sidebar="menu-button"][data-active="true"] {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+  font-weight: 500 !important;
+}
+
+.sidebar-case {
+  --sidebar-background: 210 73% 42% !important; /* Same as sub for now */
+  --sidebar-foreground: 0 0% 100% !important;
+  --sidebar-primary: 210 73% 50% !important;
+  --sidebar-primary-foreground: 0 0% 100% !important;
+  --sidebar-accent: 210 73% 47% !important;
+  --sidebar-accent-foreground: 0 0% 100% !important;
+  --sidebar-border: 210 73% 37% !important;
+  --sidebar-ring: 210 73% 55% !important;
+}
+
+.sidebar-case [data-sidebar="menu-button"] {
+  color: hsl(var(--sidebar-foreground)) !important;
+}
+
+.sidebar-case [data-sidebar="menu-button"]:hover {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+}
+
+.sidebar-case [data-sidebar="menu-button"][data-active="true"] {
+  background-color: hsl(var(--sidebar-accent)) !important;
+  color: hsl(var(--sidebar-accent-foreground)) !important;
+  font-weight: 500 !important;
+}
+
+/* Comprehensive sidebar text styling */
+.sidebar-main,
+.sidebar-sub,
+.sidebar-case {
+  color: white !important;
+}
+
+.sidebar-main *,
+.sidebar-sub *,
+.sidebar-case * {
+  color: white !important;
+}
+
+/* Group labels (headings) - more subtle */
+.sidebar-main [data-sidebar="group-label"],
+.sidebar-sub [data-sidebar="group-label"],
+.sidebar-case [data-sidebar="group-label"] {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Menu button text */
+.sidebar-main [data-sidebar="menu-button"] span,
+.sidebar-sub [data-sidebar="menu-button"] span,
+.sidebar-case [data-sidebar="menu-button"] span {
+  color: white !important;
+}
+
+/* Icons */
+.sidebar-main svg,
+.sidebar-sub svg,
+.sidebar-case svg {
+  color: white !important;
+}
+
+/* Header titles */
+.sidebar-main h2,
+.sidebar-sub h2,
+.sidebar-case h2 {
+  color: white !important;
+}
+
+/* Descriptions */
+.sidebar-main .text-muted-foreground,
+.sidebar-sub .text-muted-foreground,
+.sidebar-case .text-muted-foreground {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Links */
+.sidebar-main a,
+.sidebar-sub a,
+.sidebar-case a {
+  color: white !important;
 }
